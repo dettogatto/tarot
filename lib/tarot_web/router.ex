@@ -16,7 +16,12 @@ defmodule TarotWeb.Router do
   scope "/", TarotWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    get "/", PageController, :login
+    get "/login", PageController, :login
+    get "/play", PageController, :play
+
+    get "/process_login", SessionController, :login
+    post "/process_login", SessionController, :login
   end
 
   # Other scopes may use custom stacks.

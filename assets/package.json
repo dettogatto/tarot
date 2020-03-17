@@ -6,9 +6,9 @@
     "watch": "webpack --mode development --watch"
   },
   "dependencies": {
+    "node-sass": "^4.13.1",
     "phoenix": "file:../deps/phoenix",
     "phoenix_html": "file:../deps/phoenix_html",
-    "node-sass": "^4.13.1",
     "sass-loader": "^8.0.2"
   },
   "devDependencies": {

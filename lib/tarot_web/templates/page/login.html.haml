@@ -1,0 +1,9 @@
+.row.fullscreen.middle.center
+  .column{style: "max-width: 500px;"}
+    - form_for @conn, Routes.page_path(@conn, :login), [autocomplete: "off"], fn f ->
+      = label f, :username, "Your character name"
+      = text_input f, :username
+      .float-right
+        = label f, :master, "I'm the master!", [class: "label-inline"]
+        = checkbox f, :master, [style: "margin-left: 10px;"]
+      = submit "Enter the realm"
