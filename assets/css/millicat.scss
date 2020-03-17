@@ -1,0 +1,42 @@
+/* Extends Milligram */
+
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+
+body{
+  margin: 0;
+}
+
+.row.middle{
+  align-items: center;
+  height: 100%;
+  position: relative;
+  flex-direction: row;
+}
+
+.row.fullscreen, .container.fullscreen{
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.row.absolute, .container.absolute{
+  position: absolute;
+}
+
+.container.scroll{
+  overflow-y: auto;
+}
+
+.container.overflow{
+  overflow: hidden;
+}
+
+.help-block{
+  display: block;
+  margin-top: -15px;
+}
+
+.center{
+  text-align: center;
+}
