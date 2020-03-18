@@ -18,9 +18,9 @@ import socket from "./socket"
 
 import React from "react"
 import ReactDOM from "react-dom"
-import App from "./components/App"
+import Loader from "./components/Loader"
 
 
 let reactEntryPoint = document.getElementById("hello-react")
 if(reactEntryPoint)
-ReactDOM.render( <App/>, reactEntryPoint )
+ReactDOM.render( <Loader/>, reactEntryPoint )
