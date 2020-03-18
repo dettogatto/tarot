@@ -12,7 +12,11 @@
     <%= csrf_meta_tag() %>
   </head>
   <body>
+    <% if @user_signed_in? do %>
+      <div class="container"><%= @current_user.username %></div>
+    <% end %>
     <%= render @view_module, @view_template, assigns %>
+    <script>window.userToken = "<%= assigns[:user_token] %>"</script>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>

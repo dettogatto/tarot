@@ -1,6 +1,6 @@
 .row.fullscreen.middle.center
   .column{style: "max-width: 500px;"}
-    - form_for @conn, Routes.page_path(@conn, :login), [autocomplete: "off"], fn f ->
+    - form_for @conn, Routes.session_path(@conn, :login), [autocomplete: "off"], fn f ->
       = label f, :username, "Your character name"
       = text_input f, :username
       .float-right

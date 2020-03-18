@@ -11,9 +11,10 @@ defmodule Tarot.Application do
       # Start the Ecto repository
       Tarot.Repo,
       # Start the endpoint when the application starts
-      TarotWeb.Endpoint
+      TarotWeb.Endpoint,
       # Starts a worker by calling: Tarot.Worker.start_link(arg)
       # {Tarot.Worker, arg},
+      TarotWeb.Presence
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
