@@ -7,12 +7,12 @@ defmodule TarotWeb.GameChannel do
   require Logger
 
   def join("game:lobby", payload, socket) do
-    # if authorized?(payload) do
+    if authorized?(socket) do
       send(self(), :after_join)
       {:ok, %{channel: "game:lobby"}, socket}
-    # else
-    #   {:error, %{reason: "unauthorized"}}
-    # end
+    else
+      {:error, %{reason: "unauthorized"}}
+    end
   end
 
   # Channels can be used in a request/response fashion
@@ -44,7 +44,7 @@ defmodule TarotWeb.GameChannel do
   end
 
   # Add authorization logic here as required.
-  defp authorized?(_payload) do
-    # Auth.user_signed_in?
+  defp authorized?(socket) do
+    !!socket.assigns[:current_user_id]
   end
 end
