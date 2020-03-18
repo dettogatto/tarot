@@ -12,5 +12,5 @@ defmodule TarotWeb.PageController do
   def play(conn, params) do
     render(conn, "play.html")
   end
-  
+
 end

@@ -30,14 +30,20 @@ defmodule TarotWeb.GameChannel do
   end
 
 
+  def handle_in("prova", payload, socket) do
+    Logger.info("HO RICEVUTO QUALCOSA!")
+  end
+
+
   def handle_info(:after_join, socket) do
     push socket, "presence_state", Presence.list(socket)
 
-    user = Repo.get(User, socket.assigns[:current_user_id])
+    user = Repo.get(User, socket.assigns[:current_user_id]) |> Repo.preload(:cards)
 
     {:ok, _} = Presence.track(socket, "user:#{user.id}", %{
       user_id: user.id,
-      username: user.username
+      username: user.username,
+      cards: Tarot.Game.user_hand(user.id)
     })
 
     {:noreply, socket}

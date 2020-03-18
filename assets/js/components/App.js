@@ -9,9 +9,20 @@ function App(props) {
 
   }, [astate])
 
+
+  function prova(){
+    window.channel.push("prova", "unabelllaprova")
+    alert("ciao");
+  }
+
   return (
     <div>
-      <h1>REACT HOOKS!!!</h1>
+      <code style={{width: "600px", whitespace: "wrap"}}>
+        {JSON.stringify(props.presences)}
+      </code>
+      <br />
+      <br />
+      <button onClick={prova}>PESCA</button>
     </div>
   )
 }

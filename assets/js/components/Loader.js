@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import {Socket, Presence} from "phoenix"
+import App from "./App"
 
-var thePresences = {}
+const socket = new Socket("/socket", {params: {token: window.userToken}})
+socket.connect()
+window.channel = socket.channel("game:lobby", {})
 
 function Loader(props) {
 
@@ -9,30 +12,27 @@ function Loader(props) {
 
   useEffect(() => {
 
-    let socket = new Socket("/socket", {params: {token: window.userToken}})
-    socket.connect()
-
-    // Now that you are connected, you can join channels with a topic:
-    let channel = socket.channel("game:lobby", {})
-    channel.join()
+    window.channel.join()
       .receive("ok", resp => { console.log("Joined successfully", resp) })
       .receive("error", resp => { console.log("Unable to join", resp) })
 
-    channel.on("presence_state", state => {
+    window.channel.on("presence_state", state => {
       setPresences((prev) => (Presence.syncState(prev, state)))
     })
 
-    channel.on("presence_diff", diff => {
+    window.channel.on("presence_diff", diff => {
       setPresences((prev) => (Presence.syncDiff(prev, diff)))
+    })
+
+    return(() => {
+      window.channel.leave();
     })
 
   }, [])
 
 
   return (
-    <div>
-      {JSON.stringify(presences)}
-    </div>
+    <App presences={presences} />
   )
 }
 export default props => <Loader {...props} />;

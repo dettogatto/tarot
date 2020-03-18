@@ -9,3 +9,5 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+Tarot.Repo.insert!(%Tarot.Card{deck: "arcani_minori", name: "asso di ori", image: "", value: 1, suit: ""})
