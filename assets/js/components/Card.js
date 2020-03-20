@@ -9,7 +9,7 @@ function Card(props) {
 
   function getImageUrl(){
     if((props.state > 0 && props.commands) || props.state > 1){
-      return "url(/images/decks/"+props.deck+"/"+props.image+".png)"
+      return "url(/images/decks/"+props.deck+"/"+props.image+".jpg)"
     }
     return "url(/images/decks/retro.png)"
   }
