@@ -29,9 +29,51 @@ defmodule TarotWeb.GameChannel do
     {:noreply, socket}
   end
 
+  def handle_in("draw_card", deck, socket) do
+    user_id = socket.assigns[:current_user_id]
+    Tarot.Game.draw_card(deck, user_id)
+    Logger.debug("Player ##{user_id} drew one card from #{deck}")
+    update_my_presence(socket)
+    {:noreply, socket}
+  end
 
-  def handle_in("prova", payload, socket) do
-    Logger.info("HO RICEVUTO QUALCOSA!")
+  def handle_in("undraw_card", card_id, socket) do
+    Tarot.Game.undraw_card(card_id)
+    Logger.debug("Player ##{socket.assigns[:current_user_id]} undrew card #{card_id}")
+    update_my_presence(socket)
+    {:noreply, socket}
+  end
+
+  def handle_in("peek_card", card_id, socket) do
+    Tarot.Game.peek_card(card_id)
+    Logger.debug("Player ##{socket.assigns[:current_user_id]} peeked card #{card_id}")
+    update_my_presence(socket)
+    {:noreply, socket}
+  end
+
+  def handle_in("reveal_card", card_id, socket) do
+    Tarot.Game.reveal_card(card_id)
+    Logger.debug("Player ##{socket.assigns[:current_user_id]} revealed card #{card_id}")
+    update_my_presence(socket)
+    {:noreply, socket}
+  end
+
+  def handle_in("empty_hand", _, socket) do
+    user_id = socket.assigns[:current_user_id]
+    Tarot.Game.empty_hand(user_id)
+    Logger.debug("Player ##{user_id} emptied hand")
+    update_my_presence(socket)
+    {:noreply, socket}
+  end
+
+  def update_my_presence(socket) do
+    user = Repo.get(User, socket.assigns[:current_user_id]) |> Repo.preload(:cards)
+
+    {:ok, _} = Presence.update(socket, "user:#{user.id}", %{
+      user_id: user.id,
+      username: user.username,
+      cards: Tarot.Game.user_hand(user.id)
+    })
   end
 
 

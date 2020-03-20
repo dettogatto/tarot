@@ -20,6 +20,7 @@ defmodule TarotWeb.Router do
     get "/", PageController, :login
     get "/login", PageController, :login
     get "/play", PageController, :play
+    get "/reset", PageController, :reset
 
     get "/process_login", SessionController, :login
     post "/process_login", SessionController, :login

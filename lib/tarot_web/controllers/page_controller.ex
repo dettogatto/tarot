@@ -6,11 +6,20 @@ defmodule TarotWeb.PageController do
   end
 
   def login(conn, _params) do
-    render(conn, "login.html")
+    if conn.assigns.user_signed_in? do
+      redirect(conn, to: "/play")
+    else
+      render(conn, "login.html")
+    end
   end
 
   def play(conn, params) do
     render(conn, "play.html")
+  end
+
+  def reset(conn, params) do
+    Tarot.Game.reset_all_decks()
+    redirect(conn, to: "/play")
   end
 
 end

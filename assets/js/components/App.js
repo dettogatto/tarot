@@ -1,28 +1,53 @@
 import React, { useState, useEffect } from 'react';
+import UsersList from './UsersList';
+import Deck from './Deck';
 import {Socket, Presence} from "phoenix"
 
 function App(props) {
 
   const [astate, setAstate] = useState("");
+  const [presences, setPresences] = useState([]);
+  const [looking, setLooking] = useState(0);
 
   useEffect(() => {
+    setPresences(
+      Object.keys(props.presences).map((x) => {
+        let metas = props.presences[x].metas[0]
+        return metas
+      })
+    );
+  }, [props.presences])
 
-  }, [astate])
 
 
-  function prova(){
-    window.channel.push("prova", "unabelllaprova")
-    alert("ciao");
+  function handleEmptyHand(){
+    window.channel.push("empty_hand")
+  }
+
+  function handleBackToMyHand(){
+    setLooking(0)
+  }
+
+  function getMainButton(){
+    if(looking === 0){
+      return (
+        <button onClick={handleEmptyHand}>riponi tutte le carte</button>
+      )
+    }
+    return <button onClick={handleBackToMyHand}>torna alla tua mano</button>
   }
 
   return (
     <div>
-      <code style={{width: "600px", whitespace: "wrap"}}>
-        {JSON.stringify(props.presences)}
-      </code>
-      <br />
-      <br />
-      <button onClick={prova}>PESCA</button>
+      <h3 className="text-center">Ciao {window.currentUserName}</h3>
+      <UsersList presences={presences} looking={looking} setLooking={setLooking} />
+      <div className="container text-center">
+        {getMainButton()}
+      </div>
+      <div className="row">
+        <Deck deckType="arcani_minori" name="Arcani Minori" presences={presences} looking={looking} />
+        <Deck deckType="arcani_maggiori" name="Arcani Maggiori" presences={presences} looking={looking} />
+      </div>
     </div>
   )
 }

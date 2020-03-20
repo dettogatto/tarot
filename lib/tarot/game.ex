@@ -21,6 +21,16 @@ defmodule Tarot.Game do
     end
   end
 
+  def reset_deck(deck) do
+    query = from c in Card,
+      where: c.deck == ^deck
+    Repo.update_all(query, set: [user_id: nil, state: 0])
+  end
+
+  def reset_all_decks() do
+    Repo.update_all(Card, set: [user_id: nil, state: 0])
+  end
+
   def empty_hand(user_id) do
     query = from c in Card,
       where: c.user_id == ^user_id

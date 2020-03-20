@@ -17,6 +17,7 @@ config :tarot, Tarot.Repo,
 # with webpack to recompile .js and .css sources.
 config :tarot, TarotWeb.Endpoint,
   http: [port: 4000],
+  url: [scheme: "http", host: {:system, "HOST"}, port: "80"],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
