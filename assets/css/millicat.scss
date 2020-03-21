@@ -44,3 +44,11 @@ body{
 .text-center{
   text-align: center;
 }
+
+.container-no-padding{
+  padding: 0;
+}
+
+.row.row-rtl{
+  justify-content: flex-end;
+}

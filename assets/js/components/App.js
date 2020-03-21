@@ -18,6 +18,12 @@ function App(props) {
     );
   }, [props.presences])
 
+  useEffect(() => {
+    window.cardsToPreload.forEach((pic) => {
+      new Image().src = "/images/decks/" + pic;
+    })
+  }, [])
+
 
 
   function handleEmptyHand(){
@@ -40,7 +46,6 @@ function App(props) {
   return (
     <div>
       <h3 className="text-center">Ciao {window.currentUserName}</h3>
-      <UsersList presences={presences} looking={looking} setLooking={setLooking} />
       <div className="container text-center">
         {getMainButton()}
       </div>
@@ -48,6 +53,7 @@ function App(props) {
         <Deck deckType="arcani_minori" name="Arcani Minori" presences={presences} looking={looking} />
         <Deck deckType="arcani_maggiori" name="Arcani Maggiori" presences={presences} looking={looking} />
       </div>
+      <UsersList presences={presences} looking={looking} setLooking={setLooking} />
     </div>
   )
 }

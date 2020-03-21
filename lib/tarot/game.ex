@@ -50,6 +50,14 @@ defmodule Tarot.Game do
     update_card(card_id, %{state: 2})
   end
 
+  def unreveal_card(card_id) do
+    update_card(card_id, %{state: 0})
+  end
+
+  def get_card_state(card_id) do
+    Repo.get(Card, card_id).state
+  end
+
   def user_hand(user_id) do
     query = from c in Card,
       where: c.user_id == ^user_id

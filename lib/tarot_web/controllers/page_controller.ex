@@ -14,7 +14,11 @@ defmodule TarotWeb.PageController do
   end
 
   def play(conn, params) do
-    render(conn, "play.html")
+    if !conn.assigns.user_signed_in? do
+      redirect(conn, to: "/")
+    else
+      render(conn, "play.html")
+    end
   end
 
   def reset(conn, params) do

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import PlayerHand from './PlayerHand';
 function UsersList(props) {
 
   const [astate, setAstate] = useState("");
@@ -13,11 +12,7 @@ function UsersList(props) {
   }
 
   function printUsersList(){
-    return props.presences.sort((a, b) => {
-      return a.username.localeCompare(b.username)
-    }).sort((a, b) => {
-      return b.cards.length - a.cards.length
-    }).map((presence) => {
+    return props.presences.map((presence) => {
       if(Number(presence.user_id) === Number(window.currentUserId)){
         return null
       }
@@ -25,14 +20,17 @@ function UsersList(props) {
       let cl = Number(props.looking) === Number(presence.user_id) ? "" : "button button-outline"
       let sp = presence.cards.length > 0 ? <span>{presence.cards.length}</span> : null
       return(
-        <PlayerHand key={presence.user_id} username={presence.username} cards={presence.cards} />
+        <button className={cl} key={presence.user_id} onClick={() => handleUserClick(presence.user_id)}>
+          {presence.username}
+          {sp}
+        </button>
       )
     });
   }
 
   return (
-    <div className="container container-no-padding users-list">
-      <div className="compagni text-center"><h3>I TUOI COMPAGNI</h3></div>
+    <div className="container text-center users-list">
+      <p>I TUOI COMPAGNI DI VIAGGIO</p>
       {printUsersList()}
     </div>
   )

@@ -31,10 +31,10 @@ function Deck(props) {
   }
 
   return (
-    <div className="column text-center">
+    <div className={"column text-center deck"}>
       <h3>{props.name}</h3>
       {props.looking === 0 && <button onClick={handleDrawCard}>Pesca</button>}
-      <div className="row" style={{flexWrap: "wrap"}}>
+      <div className="row hand center" style={{flexWrap: "wrap"}}>
         {printHand()}
       </div>
     </div>
