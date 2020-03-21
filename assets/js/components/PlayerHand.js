@@ -24,12 +24,12 @@ function PlayerHand(props) {
       </div>
       <div className="row">
         <div className="column column-50">
-          <div className="row center">
+          <div className="row row-wrap center">
             {getDeck("arcani_minori")}
           </div>
         </div>
         <div className="column column-50 row">
-          <div className="row center">
+          <div className="row row-wrap center">
             {getDeck("arcani_maggiori")}
           </div>
         </div>

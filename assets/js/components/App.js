@@ -45,7 +45,12 @@ function App(props) {
 
   return (
     <div>
-      <h3 className="text-center">Ciao {window.currentUserName}</h3>
+      <div className="user-info">
+        <h3 className="text-center">{window.currentUserName}</h3>
+        <div className="logout-btn-container">
+          <a href="/process_logout" className="button button-clear">Logout</a>
+        </div>
+      </div>
       <div className="container text-center">
         {getMainButton()}
       </div>

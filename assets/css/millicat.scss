@@ -52,3 +52,7 @@ body{
 .row.row-rtl{
   justify-content: flex-end;
 }
+
+.row.row-wrap{
+  flex-wrap: "wrap";
+}

@@ -23,6 +23,7 @@ defmodule TarotWeb.Router do
     get "/reset", PageController, :reset
 
     get "/process_login", SessionController, :login
+    get "/process_logout", SessionController, :logout
     post "/process_login", SessionController, :login
   end
 

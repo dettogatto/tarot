@@ -15,6 +15,10 @@ defmodule Tarot.Auth do
     result
   end
 
+  def sign_out() do
+    true
+  end
+
   def current_user(conn) do
     user_id = Plug.Conn.get_session(conn, :current_user_id)
     if user_id, do: Repo.get(User, user_id)

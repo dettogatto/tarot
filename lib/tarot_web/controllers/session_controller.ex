@@ -17,4 +17,12 @@ defmodule TarotWeb.SessionController do
     end
   end
 
+  def logout(conn, _params) do
+    #Auth.sign_out()
+    conn
+      |> delete_session(:current_user_id)
+      |> put_flash(:info, "You have successfully signed out!")
+      |> redirect(to: "/")
+  end
+
 end
