@@ -7,7 +7,7 @@ defmodule TarotWeb.PageView do
     Repo.all(Card)
       |> Enum.map(fn(x) -> "#{x.deck}/#{x.image}" end)
       |> List.insert_at(0, "retro")
-      |> Enum.map(fn(x) -> "#{x}.jpg" end)
+      |> Enum.map(fn(x) -> "#{x}.png" end)
       |> Jason.encode!
   end
 end
