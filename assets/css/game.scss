@@ -21,12 +21,6 @@
   }
 }
 
-.deck{
-  .hand{
-    min-height: 351px;
-  }
-}
-
 .column.single-small-card-container{
   max-width: 100px;
   margin: 10px;
@@ -80,4 +74,14 @@
   position: absolute;
   top: 4px;
   right: 4px;
+}
+
+
+.image-preloader{
+  width: 1px;
+  height: 1px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  visibility: hidden;
 }

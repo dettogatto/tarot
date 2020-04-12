@@ -13,7 +13,7 @@ defmodule TarotWeb.PageController do
     end
   end
 
-  def play(conn, params) do
+  def play(conn, _params) do
     if !conn.assigns.user_signed_in? do
       redirect(conn, to: "/")
     else
@@ -21,7 +21,7 @@ defmodule TarotWeb.PageController do
     end
   end
 
-  def reset(conn, params) do
+  def reset(conn, _params) do
     Tarot.Game.reset_all_decks()
     redirect(conn, to: "/play")
   end

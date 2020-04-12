@@ -2,8 +2,8 @@ import React from 'react';
 function SmallCard(props) {
 
   function getImageUrl(){
-    if((props.state > 0 && props.commands) || props.state > 1){
-      return "url(/images/decks/"+props.deck+"/"+props.image+".png)"
+    if(props.visible){
+      return "url(/images/decks/"+window.allCards[props.id]["deck"]+"/"+window.allCards[props.id]["image"]+".png)"
     }
     return "url(/images/decks/retro.png)"
   }

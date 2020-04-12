@@ -2,11 +2,10 @@ defmodule TarotWeb.GameChannel do
   use TarotWeb, :channel
   alias Tarot.Repo
   alias TarotWeb.Presence
-  alias Tarot.Auth
   alias Tarot.Auth.User
   require Logger
 
-  def join("game:lobby", payload, socket) do
+  def join("game:lobby", _payload, socket) do
     if authorized?(socket) do
       send(self(), :after_join)
       {:ok, %{channel: "game:lobby"}, socket}
@@ -15,7 +14,7 @@ defmodule TarotWeb.GameChannel do
     end
   end
 
-  def leave(socket) do
+  def terminate(_reason, socket) do
     Tarot.Game.empty_hand(socket.assigns[:current_user_id])
   end
 
@@ -30,13 +29,6 @@ defmodule TarotWeb.GameChannel do
   def handle_in("undraw_card", card_id, socket) do
     Tarot.Game.undraw_card(card_id)
     Logger.debug("Player ##{socket.assigns[:current_user_id]} undrew card #{card_id}")
-    update_my_presence(socket)
-    {:noreply, socket}
-  end
-
-  def handle_in("peek_card", card_id, socket) do
-    Tarot.Game.peek_card(card_id)
-    Logger.debug("Player ##{socket.assigns[:current_user_id]} peeked card #{card_id}")
     update_my_presence(socket)
     {:noreply, socket}
   end
@@ -69,7 +61,7 @@ defmodule TarotWeb.GameChannel do
     {:ok, _} = Presence.update(socket, "user:#{user.id}", %{
       user_id: user.id,
       username: user.username,
-      cards: Tarot.Game.user_hand(user.id)
+      cards: Tarot.Game.player_hand(user.id)
     })
   end
 
@@ -82,7 +74,7 @@ defmodule TarotWeb.GameChannel do
     {:ok, _} = Presence.track(socket, "user:#{user.id}", %{
       user_id: user.id,
       username: user.username,
-      cards: Tarot.Game.user_hand(user.id)
+      cards: Tarot.Game.player_hand(user.id)
     })
 
     {:noreply, socket}

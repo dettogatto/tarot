@@ -5,84 +5,79 @@ defmodule Tarot.Game do
   import Ecto.Query, only: [from: 2]
   require Logger
 
-  def draw_card(deck, user_id) do
-    query = from c in Card,
-      where: is_nil(c.user_id) and c.deck == ^deck,
-      order_by: fragment("RANDOM()"),
-      limit: 1
-    card = Repo.one(query)
-    if card do
-      result = card
-        |> Card.changeset(%{user_id: user_id, state: 0})
-        |> Repo.update!
-      {:ok, result}
+  use GenServer
+
+  @doc """
+  Start game GenServer
+  """
+  def start_link(state \\ []) do
+    GenServer.start_link(__MODULE__, get_cards_from_db(), name: __MODULE__)
+  end
+
+  @doc """
+  GenServer.init/1 callback
+  """
+  def init(state), do: {:ok, state}
+
+  def handle_call({:draw, deck, player}, _from, state) do
+    cards = Enum.filter(state, fn(x) -> x.deck == deck && x.player == 0 end)
+    if Enum.count(cards) > 0 do
+      card = %{Enum.random(cards) | player: player, sorting: :os.system_time(:millisecond)}
+      Logger.info("Carta pescata: #{inspect(card)}")
+      state = Enum.map(state, fn(x) -> if x.id == card.id do card else x end end)
+      Logger.info("FINE draw")
+      {:reply, state, state}
     else
-      {:error, :empty_deck}
+      Logger.info("Mazzo #{deck} terminato")
+      {:reply, state, state}
     end
   end
 
-  def reset_deck(deck) do
-    query = from c in Card,
-      where: c.deck == ^deck
-    Repo.update_all(query, set: [user_id: nil, state: 0])
+
+  def handle_call(:reset, _from, state), do: {:reply, state, get_cards_from_db()}
+
+  def handle_call({:empty_hand, player}, _from, state) do
+    state = state
+      |> Enum.map(fn(x) -> if x.player == player do %{x | player: 0, visible: 0} else x end end)
+    {:reply, state, state}
   end
 
-  def reset_all_decks() do
-    Repo.update_all(Card, set: [user_id: nil, state: 0])
+
+  def handle_call({:update_card, cs}, _from, state) do
+    state = state
+      |> Enum.map(fn(x) -> if x.id == cs.id do Map.merge(x, cs) else x end end)
+    {:reply, state, state}
   end
 
-  def empty_hand(user_id) do
-    query = from c in Card,
-      where: c.user_id == ^user_id
-    Repo.update_all(query, set: [user_id: nil, state: 0])
-    {:ok, nil}
+
+  def handle_call({:player_hand, id}, _from, state) do
+    reply = state
+      |> Enum.filter(fn(x) -> x.player == id end)
+      |> Enum.sort(fn(x, y) -> x.sorting < y.sorting end)
+      |> Enum.map(fn(x) ->
+          if x.visible > 0 do
+            x.id
+          else
+            -x.id
+          end
+      end)
+    {:reply, reply, state}
   end
 
-  def undraw_card(card_id) do
-    update_card(card_id, %{user_id: nil, state: 0})
+
+  defp get_cards_from_db() do
+    Repo.all(Card)
+      |> Enum.map(fn(x) -> %{id: x.id, visible: 0, player: 0, deck: x.deck, sorting: 0} end)
   end
 
-  def peek_card(card_id) do
-    update_card(card_id, %{state: 1})
-  end
-
-  def reveal_card(card_id) do
-    update_card(card_id, %{state: 2})
-  end
-
-  def unreveal_card(card_id) do
-    update_card(card_id, %{state: 0})
-  end
-
-  def get_card_state(card_id) do
-    Repo.get(Card, card_id).state
-  end
-
-  def user_hand(user_id) do
-    query = from c in Card,
-      where: c.user_id == ^user_id
-    res = Repo.all(query)
-    # Enum.map(res, fn(x) -> Map.take(Map.from_struct(x), [:id, :deck, :name, :state, :image]) end)
-    Enum.map(res, fn(x) ->
-        if x.state > 0 do
-          x.id
-        else
-          -x.id
-        end
-    end)
-  end
-
-  defp update_card(card_id, changes) do
-    card = Repo.get(Card, card_id)
-    if card do
-      result = card
-        |> Card.changeset(changes)
-        |> Repo.update!
-      {:ok, result}
-    else
-      {:error, :no_such_card}
-    end
-  end
+  def reset(), do: GenServer.call(__MODULE__, :reset)
+  def reset_all_decks(), do: reset()
+  def empty_hand(player), do: GenServer.call(__MODULE__, {:empty_hand, player})
+  def draw_card(deck, player), do: GenServer.call(__MODULE__, {:draw, deck, player})
+  def player_hand(user_id), do: GenServer.call(__MODULE__, {:player_hand, user_id})
+  def undraw_card(card_id), do: GenServer.call(__MODULE__, {:update_card, %{id: card_id, player: 0, visible: 0}})
+  def reveal_card(card_id), do: GenServer.call(__MODULE__, {:update_card, %{id: card_id, visible: 1}})
+  def unreveal_card(card_id), do: GenServer.call(__MODULE__, {:update_card, %{id: card_id, visible: 0}})
 
 end
 

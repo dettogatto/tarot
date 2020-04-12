@@ -14,7 +14,8 @@ defmodule Tarot.Application do
       TarotWeb.Endpoint,
       # Starts a worker by calling: Tarot.Worker.start_link(arg)
       # {Tarot.Worker, arg},
-      TarotWeb.Presence
+      TarotWeb.Presence,
+      Tarot.Game
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
