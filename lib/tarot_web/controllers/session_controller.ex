@@ -17,6 +17,9 @@ defmodule TarotWeb.SessionController do
     end
   end
 
+  # login without master
+  def login(conn, %{"username" => username}), do: login(conn, %{"username" => username, "master" => false})
+
   def logout(conn, _params) do
     #Auth.sign_out()
     conn

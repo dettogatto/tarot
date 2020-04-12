@@ -3,7 +3,7 @@
     - form_for @conn, Routes.session_path(@conn, :login), [autocomplete: "off"], fn f ->
       = label f, :username, "Your character name"
       = text_input f, :username
-      .float-right
-        = label f, :master, "I'm the master!", [class: "label-inline"]
-        = checkbox f, :master, [style: "margin-left: 10px;"]
+      -# .float-right
+      -#   = label f, :master, "I'm the master!", [class: "label-inline"]
+      -#   = checkbox f, :master, [style: "margin-left: 10px;"]
       = submit "Enter the realm"
