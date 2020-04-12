@@ -62,7 +62,14 @@ defmodule Tarot.Game do
     query = from c in Card,
       where: c.user_id == ^user_id
     res = Repo.all(query)
-    Enum.map(res, fn(x) -> Map.take(Map.from_struct(x), [:id, :deck, :name, :state, :image]) end)
+    # Enum.map(res, fn(x) -> Map.take(Map.from_struct(x), [:id, :deck, :name, :state, :image]) end)
+    Enum.map(res, fn(x) ->
+        if x.state > 0 do
+          x.id
+        else
+          -x.id
+        end
+    end)
   end
 
   defp update_card(card_id, changes) do

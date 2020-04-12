@@ -11,14 +11,11 @@ function Deck(props) {
 
   function printHand(){
     let userId = window.currentUserId;
-    if(props.looking !== 0){
-      userId = props.looking;
-    }
     let hand = props.presences.find((x) => (x.user_id == userId))
     if(hand){
       return hand.cards.map((card) => {
-        if(card.deck === props.deckType){
-          return <Card key={card.id} id={card.id} name={card.name} image={card.image} state={card.state} deck={card.deck} commands={props.looking === 0} />
+        if(window.allCards[Math.abs(card)]["deck"] === props.deckType){
+          return <Card key={card} id={Math.abs(card)} visible={card > 0} commands={props.looking === 0} />
         }
         return null
       })

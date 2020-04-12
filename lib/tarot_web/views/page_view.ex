@@ -10,4 +10,11 @@ defmodule TarotWeb.PageView do
       |> Enum.map(fn(x) -> "#{x}.png" end)
       |> Jason.encode!
   end
+
+  def get_all_cards() do
+    Repo.all(Card)
+      |> Enum.map(fn(x) -> {x.id, %{deck: x.deck, image: x.image}} end)
+      |> Enum.into(%{})
+      |> Jason.encode!
+  end
 end
