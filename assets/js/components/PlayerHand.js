@@ -11,7 +11,7 @@ function PlayerHand(props) {
   function getDeck(deck){
     return props.cards.map((card) => {
       if(window.allCards[Math.abs(card)]["deck"] === deck){
-        return <SmallCard key={card} id={Math.abs(card)} visible={card > 0} />
+        return <SmallCard key={Math.abs(card)} id={Math.abs(card)} visible={card > 0} />
       }
       return null
     })

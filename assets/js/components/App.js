@@ -8,7 +8,6 @@ function App(props) {
   const [astate, setAstate] = useState("");
   const [presences, setPresences] = useState([]);
   const [looking, setLooking] = useState(0);
-  const [preload, setPreload] = useState("/images/decks/retro.png");
 
   useEffect(() => {
     setPresences(
@@ -19,10 +18,6 @@ function App(props) {
     );
   }, [props.presences])
 
-  useEffect(() => {
-    window.cardsToPreload = Object.values(window.allCards).map((x) => ("/images/decks/" + x["deck"] + "/" + x["image"] + ".png"))
-    setTimeout(preloadCards, 50)
-  }, [])
 
   function preloadCards(){
     let img = window.cardsToPreload.pop()
@@ -52,7 +47,6 @@ function App(props) {
 
   return (
     <div>
-      <div className="image-preloader" style={{backgroundImage: "url("+preload+")"}}></div>
       <div className="user-info">
         <h3 className="text-center">{window.currentUserName}</h3>
         <div className="logout-btn-container">

@@ -1,17 +1,9 @@
 import React, { useState, useEffect } from 'react';
 function Card(props) {
 
-  const [revealed, setRevealed] = useState(props.state > 1);
-
-  function getImageUrl(){
-    // if((props.state > 0 && props.commands) || props.state > 1){
-    //   return "url(/images/decks/"+props.deck+"/"+props.image+".png)"
-    // }
-    if(props.visible){
-      return "url(/images/decks/"+window.allCards[props.id]["deck"]+"/"+window.allCards[props.id]["image"]+".png)"
-    }
-    return "url(/images/decks/retro.png)"
-  }
+  const [revealed, setRevealed] = useState(props.state > 1)
+  const url = "url(/images/decks/"+window.allCards[props.id]["deck"]+"/"+window.allCards[props.id]["image"]+".png)"
+  const retroUrl = "url(/images/decks/retro.png)"
 
   function handleUndraw(){
     window.channel.push("undraw_card", props.id)
@@ -48,9 +40,11 @@ function Card(props) {
 
   return (
     <div className="column single-card-container">
-      <div className="card-image" onClick={handleClick} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} style={{backgroundImage: getImageUrl()}}></div>
+      <div className={revealed ? "card-image revealed" : "card-image"} onClick={handleClick} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} style={{backgroundImage: url}}>
+        <div className="card-retro" style={{backgroundImage: retroUrl}}></div>
+      </div>
       <div className="card-controls">
-        {props.commands && <button onClick={handleUndraw}>X</button>}
+        <button onClick={handleUndraw}>X</button>
       </div>
     </div>
   )

@@ -15,7 +15,7 @@ function Deck(props) {
     if(hand){
       return hand.cards.map((card) => {
         if(window.allCards[Math.abs(card)]["deck"] === props.deckType){
-          return <Card key={card} id={Math.abs(card)} visible={card > 0} commands={props.looking === 0} />
+          return <Card key={Math.abs(card)} id={Math.abs(card)} visible={card > 0} commands={props.looking === 0} />
         }
         return null
       })

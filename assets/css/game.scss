@@ -6,11 +6,39 @@
   margin-bottom: 40px;
 
   .card-image{
-    background-size: 100% 100%;
+    background-size: 0% 0%;
     display: block;
     width: 150px;
     height: 265px;
     cursor: pointer;
+    position: relative;
+
+    .card-retro{
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background-size: 100% 100%;
+    }
+
+    &:hover{
+      background-size: 100% 100%;
+      @media (hover: hover) {
+        .card-retro{
+          display: none;
+        }
+      }
+    }
+
+    &.revealed{
+      background-size: 100% 100%;
+      .card-retro{
+        display: none;
+      }
+    }
+
+
   }
 
   .card-controls{
@@ -34,7 +62,7 @@
 }
 
 .users-list{
-  background-color: #eee;
+  // background-color: #eee;
   border-radius: 5px;
   padding: 30px;
   margin-top: 30px;
@@ -47,7 +75,7 @@
 .player-hand{
   padding: 0;
   .player-name{
-    background-color: #ddd;
+    // background-color: #ddd;
     padding: 3px 0px;
     border-radius: 5px;
     margin-top: 10px;
@@ -59,7 +87,7 @@
 }
 
 .user-info{
-  background-color: #eee;
+  // background-color: #eee;
   padding: 5px;
   border-radius: 5px;
   margin-bottom: 20px;
@@ -77,11 +105,6 @@
 }
 
 
-.image-preloader{
-  width: 1px;
-  height: 1px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  visibility: hidden;
+.preloader{
+  display: none;
 }

@@ -1,0 +1,36 @@
+$accent-color: #593D36;
+$secondary-color: #A66641;
+
+
+body{
+  background-color: #261914;
+  color: #fff9;
+}
+
+a.button.button-clear{
+  color: #8C7D7B;
+  &:hover{
+    color: $secondary-color;
+  }
+}
+
+button, button:focus{
+  color: #fff9;
+  background-color: $accent-color;
+  border-color: $accent-color;
+}
+
+button:hover{
+  background-color: $secondary-color;
+  border-color: $secondary-color;
+}
+
+div.user-info, div.users-list, div.player-name{
+  background-color: #8C7D7B22;
+}
+
+input[type="text"]{
+  background-color: #fff2;
+  color: #fff9;
+  border: none;
+}
