@@ -22,5 +22,6 @@ import Loader from "./components/Loader"
 
 
 let reactEntryPoint = document.getElementById("hello-react")
-if(reactEntryPoint)
-ReactDOM.render( <Loader/>, reactEntryPoint )
+if(reactEntryPoint){
+  ReactDOM.render( <Loader/>, reactEntryPoint )
+}

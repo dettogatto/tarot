@@ -2,15 +2,16 @@ import React, { useState, useEffect } from 'react';
 import {Socket, Presence} from "phoenix"
 import App from "./App"
 
-const socket = new Socket("/socket", {params: {token: window.userToken}})
-socket.connect()
-window.channel = socket.channel("game:lobby", {})
 
 function Loader(props) {
 
   const [presences, setPresences] = useState({})
 
   useEffect(() => {
+
+    const socket = new Socket("/socket", {params: {token: window.userToken}})
+    socket.connect()
+    window.channel = socket.channel("game:lobby", {})
 
     window.channel.join()
       .receive("ok", resp => { console.log("Joined successfully", resp) })
